@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Light / dark palette (RGB channels, used by tailwind.config.js) ---------- */
+:root,
+.on-saffron {
+  --c-ink: 42 26 21;
+  --c-ink-soft: 107 90 82;
+  --c-ink-faint: 163 147 137;
+  --c-cream: 255 247 234;
+  --c-cream-deep: 252 239 216;
+  --c-cream-line: 241 223 194;
+  --c-paper: 255 255 255;
+  --c-saffron-50: 255 244 224;
+  --c-saffron-100: 255 231 189;
+  --c-maroon-50: 251 237 235;
+  --c-maroon-100: 243 211 207;
+  --c-maroon-500: 154 46 38;
+  --c-maroon-600: 138 38 32;
+  --c-maroon-700: 111 29 24;
+  --c-leaf-50: 234 246 236;
+  --c-leaf-600: 46 125 58;
+  --c-mint-700: 31 90 41;
+  --c-peach-700: 178 101 11;
+}
+:root { color-scheme: light; }
+
+.dark {
+  color-scheme: dark;
+  --c-ink: 245 237 230;
+  --c-ink-soft: 196 182 172;
+  --c-ink-faint: 145 130 120;
+  --c-cream: 21 17 15;
+  --c-cream-deep: 38 31 27;
+  --c-cream-line: 60 49 43;
+  --c-paper: 31 26 23;
+  --c-saffron-50: 46 36 22;
+  --c-saffron-100: 66 50 25;
+  --c-maroon-50: 50 28 25;
+  --c-maroon-100: 80 40 35;
+  --c-maroon-500: 210 92 80;
+  --c-maroon-600: 194 69 58;
+  --c-maroon-700: 168 54 45;
+  --c-leaf-50: 22 42 27;
+  --c-leaf-600: 92 184 108;
+  --c-mint-700: 130 210 145;
+  --c-peach-700: 248 180 95;
+}
+
+/* The yellow banners keep their light colours in dark mode, so dark text on
+   yellow stays readable. ".on-saffron" re-applies the light palette inside. */
+.dark .on-saffron { color-scheme: light; color: rgb(var(--c-ink)); }
+
+@layer base {
+  /* Phones: the page only scrolls up and down, never sideways. "clip" (unlike
+     "hidden") keeps sticky headers working. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+  body {
+    @apply bg-cream text-ink antialiased;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  ::selection {
+    @apply bg-saffron-300;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-cream-line bg-white shadow-card;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition
+           disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-saffron-300;
+  }
+  .btn-primary {
+    @apply btn bg-maroon-600 text-white hover:bg-maroon-700;
+  }
+  .btn-outline {
+    @apply btn border border-maroon-600 bg-white text-maroon-600 hover:bg-maroon-50;
+  }
+  .btn-ghost {
+    @apply btn border border-cream-line bg-white text-ink hover:bg-cream-deep;
+  }
+  .btn-soft {
+    @apply btn border border-maroon-600 bg-white px-4 py-1.5 text-maroon-600 hover:bg-maroon-50;
+  }
+  .input {
+    @apply w-full rounded-lg border border-cream-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint
+           focus:border-maroon-500 focus:outline-none focus:ring-2 focus:ring-maroon-100;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold text-ink;
+  }
+  .chip {
+    @apply inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-cream-line bg-white px-3.5 py-1.5 text-sm font-medium transition hover:border-saffron-400;
+  }
+  .section-title {
+    @apply text-lg font-bold text-ink;
+  }
+  .link {
+    @apply font-semibold text-maroon-600 hover:underline;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Faint dotted pattern used behind the mascot on the login panels */
+.dots {
+  background-image: radial-gradient(rgba(138, 38, 32, 0.18) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* ---------- Dock: yellow liquid glass ---------- */
+.glass-dock {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 226, 160, 0.62), rgba(253, 186, 82, 0.38) 55%, rgba(249, 169, 58, 0.46));
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(229, 142, 30, 0.3),
+    0 12px 32px -12px rgba(229, 142, 30, 0.6),
+    0 2px 8px rgba(42, 26, 21, 0.08);
+}
+/* Shine across the top half, like light on glass. */
+.glass-dock::before {
+  content: '';
+  position: absolute;
+  inset: 1px 1px 50% 1px;
+  border-radius: 21px 21px 40% 40% / 21px 21px 14px 14px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+.dark .glass-dock {
+  background: linear-gradient(135deg, rgba(253, 203, 117, 0.26), rgba(229, 142, 30, 0.14) 55%, rgba(253, 186, 82, 0.22));
+  border-color: rgba(253, 203, 117, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 236, 200, 0.3),
+    0 12px 32px -12px rgba(0, 0, 0, 0.7);
+}
+.dark .glass-dock::before { background: linear-gradient(to bottom, rgba(255, 236, 200, 0.14), rgba(255, 236, 200, 0)); }
+.dock-btn { position: relative; z-index: 1; }
+
+/* ---------- Light maroon glass (Home "How it works" card) ----------
+   Mostly solid maroon; about 20% glass: slight see-through, a soft shine
+   across the top, a warm glint in the corner and a thin bright edge. */
+.glass-maroon {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgb(var(--c-maroon-700) / 0.94), rgb(74 17 14 / 0.93));
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+    0 14px 32px -16px rgba(111, 29, 24, 0.55);
+}
+.glass-maroon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 88% 0%, rgba(253, 203, 117, 0.16), transparent 45%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 30%, transparent 50%);
+}
+
+/* ---------- Rainbow button (shop "Voice update") ----------
+   After Magic UI's Rainbow Button (magicui.design/docs/components/rainbow-button),
+   in light red and yellow: the colours flow slowly across the button, a blurred
+   copy glows underneath, and a light glass shine (about 20%) sits on top. */
+@keyframes rainbow-flow { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+.rainbow-wrap { position: relative; display: inline-flex; }
+.rainbow-btn,
+.rainbow-glow {
+  background-image: linear-gradient(90deg, #fca5a5, #fdba74, #fde68a, #fdba74, #fca5a5);
+  background-size: 200% 100%;
+  animation: rainbow-flow 3s ease-in-out infinite alternate;
+}
+.rainbow-glow {
+  position: absolute;
+  inset: 40% 10% -5px;
+  border-radius: 9999px;
+  filter: blur(10px);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.rainbow-btn {
+  position: relative;
+  overflow: hidden;
+  color: #6f1d18;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(220, 80, 60, 0.18),
+    0 6px 16px -8px rgba(239, 68, 68, 0.5);
+}
+.rainbow-btn:hover { filter: saturate(1.15) brightness(1.03); }
+/* The glass: a soft shine over the top half, and a faint see-through frost. */
+.rainbow-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.rainbow-btn::after {
+  content: '';
+  position: absolute;
+  inset: 1px 1px 50% 1px;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+.rainbow-btn > * { position: relative; z-index: 1; }
+.rainbow-btn:disabled { animation-play-state: paused; }
+.rainbow-wrap:has(.rainbow-btn:disabled) .rainbow-glow { animation-play-state: paused; opacity: 0.35; }
+@media (prefers-reduced-motion: reduce) {
+  .rainbow-btn, .rainbow-glow { animation: none; }
+}
+
+/* ---------- Shop sign-up map (Leaflet) ---------- */
+.map-pick { font: inherit; background: rgb(var(--c-cream-deep)); cursor: grab; }
+.map-pick.leaflet-dragging { cursor: grabbing; }
+.map-pick .leaflet-control-attribution { font-size: 10px; }
+.dark .map-pick .leaflet-tile-pane { filter: brightness(0.8) contrast(1.05) saturate(0.85); }
+.dark .map-pick .leaflet-bar a { background: rgb(var(--c-paper)); color: rgb(var(--c-ink)); border-color: rgb(var(--c-cream-line)); }
+.dark .map-pick .leaflet-control-attribution { background: rgb(var(--c-paper) / 0.8); color: rgb(var(--c-ink-soft)); }
+.dark .map-pick .leaflet-control-attribution a { color: rgb(var(--c-ink)); }
+
+/* ---------- Cart drawer slides in from the right ---------- */
+@keyframes drawer-in  { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes drawer-out { from { transform: none; } to { transform: translateX(100%); } }
+.drawer     { animation: drawer-in 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+.drawer-out { animation: drawer-out 0.22s ease-in both; }
+
+/* ---------- Dropdown menus pop open ---------- */
+@keyframes menu-pop { from { opacity: 0; transform: translateY(-4px) scale(0.97); } to { opacity: 1; transform: none; } }
+.menu-pop { animation: menu-pop 0.16s ease-out both; transform-origin: top left; }
+
+/* ---------- Shop activity feed: new rows slide in ---------- */
+@keyframes feed-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.feed-in { animation: feed-in 0.4s ease-out both; transition: background-color 2s ease; }
+
+/* ---------- Help chat pop-in / pop-out ---------- */
+@keyframes chat-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes chat-fade-out { from { opacity: 1; } to { opacity: 0; } }
+/* Phone: sheet slides up from the bottom with a small overshoot. */
+@keyframes chat-sheet-in  { 0% { transform: translateY(100%); } 70% { transform: translateY(-2%); } 100% { transform: none; } }
+@keyframes chat-sheet-out { from { transform: none; } to { transform: translateY(100%); } }
+/* Desktop: window pops up from slightly small, overshoots, then settles. */
+@keyframes chat-pop-in {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.85); }
+  60%  { opacity: 1; transform: translateY(-6px) scale(1.03); }
+  80%  { transform: translateY(2px) scale(0.99); }
+  100% { transform: none; }
+}
+@keyframes chat-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(16px) scale(0.9); } }
+
+.chat-backdrop     { animation: chat-fade-in 0.2s ease-out both; }
+.chat-backdrop-out { animation: chat-fade-out 0.18s ease-in both; }
+.chat-window       { animation: chat-sheet-in 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+.chat-window-out   { animation: chat-sheet-out 0.18s ease-in both; }
+/* Minimized: the small corner window pops out of the corner. */
+@keyframes chat-dock-in { 0% { opacity: 0; transform: scale(0.6); } 70% { opacity: 1; transform: scale(1.03); } 100% { transform: none; } }
+.chat-dock         { animation: chat-dock-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1) both; transform-origin: bottom right; }
+@media (min-width: 640px) {
+  .chat-window     { animation: chat-pop-in 0.42s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+  .chat-window-out { animation: chat-pop-out 0.18s ease-in both; }
+}
+/* People who turn off animations in their device settings get none. */
+@media (prefers-reduced-motion: reduce) {
+  .chat-backdrop, .chat-backdrop-out, .chat-window, .chat-window-out, .chat-dock, .drawer, .drawer-out, .feed-in, .menu-pop { animation: none; }
+}
